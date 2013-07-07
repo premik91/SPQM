@@ -1,1 +1,7 @@
 {% extends 'master.html' %}
+
+{% block body %}
+    {% for person in persons %}
+        <div>{{ person.information.first_name }}</div>
+    {% endfor %}
+{% endblock %}

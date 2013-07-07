@@ -20,7 +20,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'SPQM',
+        'NAME': SITE_ROOT[0:-4] + 'main_db',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -140,6 +140,10 @@ INSTALLED_APPS = (
 
     # Applications:
     'SPQM.frontend',
+
+    # Plugins:
+    'south',
+    'cities_light',
 )
 
 # A sample logging configuration. The only tangible logging
