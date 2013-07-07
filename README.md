@@ -1,6 +1,5 @@
 ## SPQM
-Senatus Populusque Mundus
-The Senate and the People of the World
+Senatus Populusque Mundus = The Senate and the People of the World
 
 ##### Admin information:
 * URL: /admin/
