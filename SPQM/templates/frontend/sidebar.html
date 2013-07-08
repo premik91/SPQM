@@ -1,0 +1,44 @@
+{% load static %}
+
+<ul id="sidebar" class="nav nav-pills nav-stacked">
+    <li class="avatar hidden-phone">
+        <a href="#">
+            <img src="{% static 'img/anonymous.png' %}">
+            <span>You Are Anonymous</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <i class="icon-leaf"></i>
+            <span class="hidden-phone">Maps</span>
+        </a>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-user"></i>
+            <span class="hidden-phone">Persons</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="#">
+                    <i class="icon-large icon-building"></i> Politics
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="icon-large icon-shopping-cart"></i> Tycoons
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="icon-large icon-anchor"></i> Judges
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="icon-large icon-user"></i> Your friends
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>

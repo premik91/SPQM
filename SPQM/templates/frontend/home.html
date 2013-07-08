@@ -1,7 +1,85 @@
 {% extends 'master.html' %}
-
+{% load static %}
 {% block body %}
-    {% for person in persons %}
-        <div>{{ person.information.first_name }}</div>
-    {% endfor %}
+    <div id="main_content" class="container-fluid">
+        {# MAIN PAGE HEADING #}
+        <div class="page-heading">
+            <h2 class="page-title muted">
+                <i class="icon-globe icon-large"></i> Home
+            </h2>
+            {% include 'frontend/statistics.html' %}
+        </div>
+
+        {# CURRENT SITE #}
+        <ul class="breadcrumb breadcrumb-main">
+            <li><a href="#">Home</a> <span class="divider"><i class="icon-caret-right"></i></span></li>
+        </ul>
+
+        {# PERSONS #}
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="well widget left">
+                    <div class="widget-header">
+                        <h3 class="title">Janez Jansa</h3>
+                        <div class="widget-nav">
+                            <ul class="nav nav-pills">
+                                <li class="active"><a href="#">Corrupted</a></li>
+                                <li><a href="#">Uncorrupted</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="#"><i class="icon-user"></i> Description</a></li>
+                        <li><a href="#"><i class="icon-user"></i> Results</a></li>
+                        <li><a href="#"><i class="icon-envelope"></i> Comments</a></li>
+                        <li><a href="#"><i class="icon-cog"></i> Badges</a></li>
+                    </ul>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row-fluid">
+            <div class="span3">
+                <img src="{% static 'img/anonymous.png' %}" class="person-image">
+                <div class="well widget paper-pile">
+                    <div class="widget-header">
+                        <h3 class="title">Janez Jansa</h3>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+            <div class="span3">
+                <img src="{% static 'img/anonymous.png' %}" class="person-image">
+                <div class="well widget paper-pile">
+                    <div class="widget-header">
+                        <h3 class="title">Janez Jansa</h3>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+            <div class="span3">
+                <img src="{% static 'img/anonymous.png' %}" class="person-image">
+                <div class="well widget paper-pile">
+                    <div class="widget-header">
+                        <h3 class="title">Janez Jansa</h3>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+            <div class="span3">
+                <img src="{% static 'img/anonymous.png' %}" class="person-image">
+                <div class="well widget paper-pile">
+                    <div class="widget-header">
+                        <h3 class="title">Janez Jansa</h3>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
 {% endblock %}
