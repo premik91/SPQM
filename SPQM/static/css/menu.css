@@ -256,7 +256,7 @@
     margin-top: 3px;
 }
 
-/*widget's stacked pills*/
+/* ----------------- Widget's stacked pills ----------------- */
 .well.widget.left,
 .well.widget.right {
     border-color: #a0a0a0;
@@ -267,7 +267,7 @@
     border-bottom-color: #a0a0a0;
 }
 
-/*left*/
+/* ----------------- Left*/
 .well.widget.left {
     min-height: 250px;
     padding-left: 170px;
@@ -328,7 +328,7 @@
     padding-left: 0;
 }
 
-/*right*/
+/* ----------------- Right */
 .well.widget.right {
     min-height: 250px;
     padding-right: 170px;
@@ -353,9 +353,7 @@
     margin-right: -60px;
 }
 
-/*==================================================
-* tabs inside widget header
-* ===============================================*/
+/* ----------------- tabs inside widget header ----------------- */
 .well ul.nav-tabs.tabs-two {
     float: right;
     margin: -46px -9px 0px 0px;
@@ -412,7 +410,7 @@
     cursor: pointer !important;
 }
 
-/* text editor */
+/* ----------------- Text editor ----------------- */
 .well.widget.kuta-editor  .widget-header {
     margin-bottom: 0;
 }
@@ -429,7 +427,7 @@
     min-height: 100px;
 }
 
-/* meta */
+/* ----------------- Meta ----------------- */
 .well .meta {
     display: block;
     line-height: 20px;
@@ -477,12 +475,12 @@
     margin-bottom: 19px;
 }
 
-/* media object */
+/* ----------------- Media objects ----------------- */
 .media.media-feed {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/*misc*/
+/* ----------------- Misc ----------------- */
 .option-wrapper {
     margin: -15px 0 10px 0;
 }
@@ -501,7 +499,7 @@
     margin-top: 6px;
 }
 
-/*modal widget*/
+/* ----------------- Modal widget ----------------- */
 .modal .well.widget {
     margin-bottom: 0;
     -webkit-border-radius: 6px;

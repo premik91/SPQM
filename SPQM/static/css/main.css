@@ -4,6 +4,8 @@ body {
     padding: 0;
     background-color: #404040;
 }
+/* ----------------- MAIN CLASSES */
+.float-right { float: right; }
 
 .button-action .btn, .brand, h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
@@ -60,7 +62,7 @@ address strong {
     white-space: normal;
 }
 
-/*HEADER*/
+/* ----------------- HEADER ----------------- */
 header.navbar {
     margin: 0 10px 0 0;
 }
@@ -178,9 +180,7 @@ header.navbar .dropdown-submenu:hover > a {
     text-shadow: none;
 }
 
-/*==================================================
-* dropdown user account
-* ===============================================*/
+/* ----------------- Dropdown user account ----------------- */
 .dropdown-menu.dropdown-user-account {
     width: 365px;
 }
@@ -250,7 +250,7 @@ header.navbar .dropdown-submenu:hover > a {
     color: #ffffff;
 }
 
-/* CONTENT */
+/* ----------------- CONTENT ----------------- */
 #main_content.container-fluid {
     position: relative;
     background-color: #efefef;
@@ -413,4 +413,59 @@ header.navbar .dropdown-submenu:hover > a {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
+}
+/* ----------------- Home page ----------------- */
+/* ----------------- Person */
+.person {
+    background: #ff8c00;
+}
+
+.person > .person-image {
+    position: relative;
+}
+
+.person > .person-image > .btn {
+    position: absolute;
+    z-index: 100;
+    left:0;
+    right:0;
+    bottom: 0;
+    margin: 0 auto;
+    display: none;
+}
+
+.person:hover > .person-image > .btn {
+    display: block;
+}
+
+.person > .well > p {
+    max-height: 100px;
+    overflow-y: hidden;
+}
+
+.person:hover > .well {
+    background: #000000;
+    color: #ffffff;
+}
+
+.person:hover img {
+    opacity: 0.8;
+}
+
+/* ----------------- Person page ----------------- */
+/* ----------------- Badges */
+.badges > li {
+    width: 40px;
+    height: 40px;
+    float: left;
+    margin-right: 6px;
+}
+
+/* ----------------- Footage */
+#footage .well {
+    background-color: #000000;
+}
+
+#footage img {
+    max-height: 500px;
 }

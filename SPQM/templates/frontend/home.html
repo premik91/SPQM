@@ -16,69 +16,53 @@
         </ul>
 
         {# PERSONS #}
-        <div class="row-fluid">
-            <div class="span6">
-                <div class="well widget left">
-                    <div class="widget-header">
-                        <h3 class="title">Janez Jansa</h3>
-                        <div class="widget-nav">
-                            <ul class="nav nav-pills">
-                                <li class="active"><a href="#">Corrupted</a></li>
-                                <li><a href="#">Uncorrupted</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#"><i class="icon-user"></i> Description</a></li>
-                        <li><a href="#"><i class="icon-user"></i> Results</a></li>
-                        <li><a href="#"><i class="icon-envelope"></i> Comments</a></li>
-                        <li><a href="#"><i class="icon-cog"></i> Badges</a></li>
-                    </ul>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-            </div>
-        </div>
+{#        <div class="row-fluid">#}
+{#            <div class="span6">#}
+{#                <div class="well widget left">#}
+{#                    <div class="widget-header">#}
+{#                        <h3 class="title">Janez Jansa</h3>#}
+{#                        <div class="widget-nav">#}
+{#                            <ul class="nav nav-pills">#}
+{#                                <li class="active"><a href="#">Corrupted</a></li>#}
+{#                                <li><a href="#">Uncorrupted</a></li>#}
+{#                            </ul>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <ul class="nav nav-pills nav-stacked">#}
+{#                        <li class="active"><a href="#"><i class="icon-user"></i> Description</a></li>#}
+{#                        <li><a href="#"><i class="icon-user"></i> Results</a></li>#}
+{#                        <li><a href="#"><i class="icon-envelope"></i> Comments</a></li>#}
+{#                        <li><a href="#"><i class="icon-cog"></i> Badges</a></li>#}
+{#                    </ul>#}
+{#                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>#}
+{##}
+{#                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
         <hr>
-
         <div class="row-fluid">
+        {% for person in persons %}
             <div class="span3">
-                <img src="{% static 'img/anonymous.png' %}" class="person-image">
-                <div class="well widget paper-pile">
-                    <div class="widget-header">
-                        <h3 class="title">Janez Jansa</h3>
+                <div class="person">
+                    <div class="person-image">
+                        <a href="{{ person.create_url }}" class="btn btn-large btn-danger">Show Person</a>
+                        <img src="{% static 'img/anonymous.png' %}" alt="person">
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+                    <div class="well widget">
+                        <div class="widget-header">
+                            <h3 class="title">{{ person.information.first_name }} {{ person.information.last_name }}</h3>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
                 </div>
             </div>
-            <div class="span3">
-                <img src="{% static 'img/anonymous.png' %}" class="person-image">
-                <div class="well widget paper-pile">
-                    <div class="widget-header">
-                        <h3 class="title">Janez Jansa</h3>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            {% if forloop.counter|divisibleby:4 %}
                 </div>
-            </div>
-            <div class="span3">
-                <img src="{% static 'img/anonymous.png' %}" class="person-image">
-                <div class="well widget paper-pile">
-                    <div class="widget-header">
-                        <h3 class="title">Janez Jansa</h3>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-            </div>
-            <div class="span3">
-                <img src="{% static 'img/anonymous.png' %}" class="person-image">
-                <div class="well widget paper-pile">
-                    <div class="widget-header">
-                        <h3 class="title">Janez Jansa</h3>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-            </div>
+                <div class="row-fluid">
+            {% endif %}
+        {% endfor %}
         </div>
         <hr>
     </div>

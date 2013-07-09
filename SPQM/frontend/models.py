@@ -39,7 +39,9 @@ class Person(models.Model):
         return unicode(self.information.first_name)
 
     def create_url(self):
-        proper_url = re.sub(r"[^a-zA-Z0-9 ]", '', self.name)
+        proper_url = re.sub(r"[^a-zA-Z0-9 ]", '', self.information.first_name + ' ' + self.information.last_name)
         proper_url = proper_url.replace(' ', '_')
-        proper_url = proper_url + '-' + self.pk.__str__()
-        return proper_url
+        # Is the name unique?
+        if not len(Information.objects.filter(first_name=self.information.first_name, last_name=self.information.last_name)) == 1:
+            proper_url = proper_url + '-' + self.id.__str__()
+        return '/' + proper_url + '/'
