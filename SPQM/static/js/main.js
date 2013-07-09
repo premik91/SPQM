@@ -1,4 +1,4 @@
-
+$('.start-tooltip').tooltip();
 
 
 

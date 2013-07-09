@@ -1,0 +1,89 @@
+{% load static %}
+<ul class="nav pull-right">
+    <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="icon-large icon-user"></i>
+    </a>
+    {% if user.is_authenticated %}
+        <ul class="dropdown-menu dropdown-user-account">
+            <li class="account-img-container">
+                <img class="thumb account-img" src="{% static 'img/anonymous.png' %}">
+            </li>
+
+            <li class="account-info">
+                <h3>Geunevere Calista</h3>
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.</p>
+
+                <p>
+                    <a href="#">Edit</a> | <a href="#">Account Settings</a>
+                </p>
+            </li>
+
+            <li class="account-footer">
+                <div class="row-fluid">
+
+                    <div class="span8">
+                        <a class="btn btn-small btn-primary btn-flat" href="#">Change avatar</a>
+                    </div>
+
+                    <div class="span4 align-right">
+                        <a class="btn btn-small btn-danger btn-flat" href="#">Logout</a>
+                    </div>
+
+                </div>
+            </li>
+        </ul>
+    {% else %}
+        <ul class="dropdown-menu dropdown-user-account">
+            <li class="account-header">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <a class="btn btn-small" href="#">
+                            <div class="icon-facebook-sign icon-large"></div> Sign In with Facebook
+                        </a>
+                    </div>
+                    <div class="span6 align-right">
+                        <a class="btn btn-small text-right" href="#">
+                            <div class="icon-twitter-sign icon-large"></div> Sign In with Twitter
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <form method="post" id="login" action="/">
+                    {% csrf_token %}
+                    <input type="text" placeholder="username">
+                    <input type="password" placeholder="password">
+                    <a href="#registerModal" class="btn btn-link" data-toggle="modal">Create a new account</a>
+                    <a class="btn btn-link mute-link">Forgot password?</a>
+                    <button type="submit" class="btn btn-large btn-info">Login</button>
+                </form>
+            </li>
+        </ul>
+    {% endif %}
+    </li>
+</ul>
+<div id="registerModal" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><i class="icon-remove-circle"></i></button>
+        <h3 id="myModalLabel">Register a new account</h3>
+    </div>
+    <form method="post" id="register">
+        <div class="modal-body">
+            <p>Registering removes captcha verifications for adding new persons, voting and all other activity.</p>
+            <p>Also if you add yourself as a person, the ability for adding additional fields such as hobbies.</p>
+            {% for field in form %}
+                <div class="fieldWrapper">
+                    {{ field.errors }}
+                    {{ field }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal">Close</button>
+            <button class="btn btn-primary">Register</button>
+        </div>
+    </form>
+</div>

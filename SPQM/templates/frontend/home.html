@@ -12,7 +12,7 @@
 
         {# CURRENT SITE #}
         <ul class="breadcrumb breadcrumb-main">
-            <li><a href="#">Home</a> <span class="divider"><i class="icon-caret-right"></i></span></li>
+            <li><a href="{% url 'home' %}">Home</a> <span class="divider"></span></li>
         </ul>
 
         {# PERSONS #}
@@ -52,7 +52,7 @@
 
                     <div class="well widget">
                         <div class="widget-header">
-                            <h3 class="title">{{ person.information.first_name }} {{ person.information.last_name }}</h3>
+                            <h3 class="title">{{ person }}</h3>
                         </div>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     </div>

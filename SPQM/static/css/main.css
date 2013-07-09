@@ -5,7 +5,10 @@ body {
     background-color: #404040;
 }
 /* ----------------- MAIN CLASSES */
-.float-right { float: right; }
+.mute-link {
+    text-decoration: none;
+    color: #888888;
+}
 
 .button-action .btn, .brand, h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
@@ -192,7 +195,7 @@ header.navbar .dropdown-submenu:hover > a {
 }
 
 .dropdown-menu.dropdown-user-account .account-img {
-    margin: 15px 0px 0px 15px;
+    margin: 15px 0 0 15px;
     border: 1px solid #d3d3d3;
     padding: 4px;
     background-color: #fefefe;
@@ -208,7 +211,7 @@ header.navbar .dropdown-submenu:hover > a {
 
 .dropdown-menu.dropdown-user-account .account-info h3,
 .dropdown-menu.dropdown-user-account .account-info p {
-    margin: 15px 0px 0px 10px;
+    margin: 15px 0 0 10px;
 }
 
 .dropdown-menu.dropdown-user-account .account-info h3 {
@@ -224,17 +227,25 @@ header.navbar .dropdown-submenu:hover > a {
     padding: 0;
 }
 
-.dropdown-menu.dropdown-user-account .account-footer {
+.dropdown-menu.dropdown-user-account .account-footer,
+.dropdown-menu.dropdown-user-account .account-header {
     clear: both;
     border-top: 1px solid #cccccc;
     background-color: #ededed;
-    margin: 15px 0px -4px 0px;
-    -webkit-border-radius: 0px 0px 4px 4px;
-    -moz-border-radius: 0px 0px 4px 4px;
-    border-radius: 0px 0px 4px 4px;
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
 }
 
-.dropdown-menu.dropdown-user-account .account-footer .btn {
+.dropdown-menu.dropdown-user-account .account-header {
+    margin-top: -5px;
+}
+
+.dropdown-menu.dropdown-user-account .account-footer {
+    margin: 15px 0 -4px 0;
+}
+
+.dropdown-menu.dropdown-user-account .btn {
     display: inline-block;
     clear: none;
     float: left;
@@ -243,11 +254,31 @@ header.navbar .dropdown-submenu:hover > a {
     margin: 10px;
 }
 
-.dropdown-menu.dropdown-user-account .account-footer .btn-primary,
-.dropdown-menu.dropdown-user-account .account-footer .btn-primary:hover,
-.dropdown-menu.dropdown-user-account .account-footer .btn-danger,
-.dropdown-menu.dropdown-user-account .account-footer .btn-danger:hover {
+.dropdown-menu.dropdown-user-account .btn-primary,
+.dropdown-menu.dropdown-user-account .btn-primary:hover,
+.dropdown-menu.dropdown-user-account .btn-danger,
+.dropdown-menu.dropdown-user-account .btn-danger:hover {
     color: #ffffff;
+}
+
+#login, #register > .modal-body {
+    margin: 10px 20px 10px 10px;
+}
+
+#login input, #login button, #register input {
+    width: 100%;
+}
+
+#login .btn {
+    margin: 0;
+}
+
+#register {
+    margin: 0;
+}
+
+#id_username {
+    opacity: 0.6;
 }
 
 /* ----------------- CONTENT ----------------- */

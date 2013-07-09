@@ -6,16 +6,22 @@ from django.shortcuts import redirect
 
 from django.utils import crypto, timezone
 from django.views import generic as generic_views
+from SPQM.frontend import forms
 
 from SPQM.frontend.models import Category, Person, Information
 
 
-class HomeView(generic_views.TemplateView):
+class HomeView(generic_views.FormView):
     template_name = 'frontend/home.html'
+    form_class = forms.RegisterUserForm
 
     def get(self, request, *args, **kwargs):
         # fill_db()
         return super(HomeView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST['username']
+        # TODO: User Login
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)

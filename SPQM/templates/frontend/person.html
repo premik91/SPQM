@@ -2,6 +2,20 @@
 {% load static %}
 {% block body %}
     <div id="main_content" class="container-fluid">
+        {# MAIN PAGE HEADING #}
+        <div class="page-heading">
+            <h2 class="page-title muted">
+                <i class="icon-zoom-in icon-large"></i> Person
+            </h2>
+            {% include 'frontend/statistics.html' %}
+        </div>
+
+        {# CURRENT SITE #}
+        <ul class="breadcrumb breadcrumb-main">
+            <li><a href="{% url 'home' %}">Home</a> <span class="divider"><i class="icon-caret-right"></i></span></li>
+            <li><a href="{{ person.create_url }}">{{ person }}</a> <span class="divider"></span></li>
+        </ul>
+
         <div class="span4">
             <img src="{% static 'img/anonymous.png' %}" alt="person" class="img-circle">
 
@@ -32,7 +46,7 @@
             <div class="widget-header">
                 <h3 class="title">Quote</h3>
 
-                <div class="float-right">
+                <div class="text-right">
                     <a href="#quotesCarousel" data-slide="prev" class="icon-arrow-left icon-large"></a>
                     <a href="#quotesCarousel" data-slide="next" class="icon-arrow-right icon-large"></a>
                 </div>

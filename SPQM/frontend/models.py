@@ -36,7 +36,7 @@ class Person(models.Model):
     description = models.CharField(max_length=10000)
 
     def __unicode__(self):
-        return unicode(self.information.first_name)
+        return unicode(self.information.first_name + ' ' + self.information.last_name)
 
     def create_url(self):
         proper_url = re.sub(r"[^a-zA-Z0-9 ]", '', self.information.first_name + ' ' + self.information.last_name)
