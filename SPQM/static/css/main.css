@@ -493,10 +493,6 @@ header.navbar .dropdown-submenu:hover > a {
 }
 
 /* ----------------- Footage */
-#footage .well {
+#photos, #videos {
     background-color: #000000;
-}
-
-#footage img {
-    max-height: 500px;
 }
