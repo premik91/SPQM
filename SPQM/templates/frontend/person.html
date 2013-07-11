@@ -1,8 +1,11 @@
 {% extends 'master.html' %}
 {% load static %}
+
 {% block css %}
     <link href="{% static 'plugins/fotorama-4.1.16/fotorama.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/sliders.css' %}">
 {% endblock %}
+
 {% block body %}
     <div id="main_content" class="container-fluid">
         {# MAIN PAGE HEADING #}
@@ -45,7 +48,7 @@
             </ul>
             <div class="clearfix"></div>
         </div>
-        <div class="well widget span6">
+        <div class="well widget span8">
             <div class="widget-header">
                 <h3 class="title">Quote</h3>
 
@@ -89,22 +92,35 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade active in" id="photos">
-                    <div class="fotorama" data-nav="thumbs" data-width="100%" data-ratio="600/400" data-autoplay="true" data-autoplay="5000">
+                    <div class="fotorama" data-nav="thumbs" data-width="100%" data-ratio="600/400" data-autoplay="true"
+                         data-autoplay="5000">
                         <img src="{% static 'img/anonymous.png' %}" data-caption="Jansa v zaporu">
                         <img src="{% static 'img/anonymous.png' %}">
                         <img src="{% static 'img/anonymous.png' %}">
                     </div>
                 </div>
                 <div class="tab-pane fade" id="videos">
-                    <div class="fotorama" data-nav="thumbs" data-width="100%" data-ratio="600/400" data-autoplay="true" data-autoplay="5000">
+                    <div class="fotorama" data-nav="thumbs" data-width="100%" data-ratio="600/400" data-autoplay="true"
+                         data-autoplay="5000">
                         <a href="http://youtube.com/watch?v=C3lWwBslWqg">Desert Rose</a>
                         <a href="http://vimeo.com/61527416">Celestial Dynamics</a>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="well widget span5">
+            <div class="widget-header">
+                <h3 class="title">Evaluate!</h3>
+            </div>
+            <div class="row-fluid">
+                <div class="slider slider-success"></div>
+                <div class="slider slider-danger"></div>
+            </div>
+        </div>
     </div>
 {% endblock %}
+
 {% block js %}
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script type="text/javascript" src="{% static 'plugins/fotorama-4.1.16/fotorama.js' %}"></script>
 {% endblock %}

@@ -26,7 +26,7 @@ class HomeView(generic_views.FormView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context.update({
-            'persons': Person.objects.all(),
+            'persons': Person.objects.all()[:20],
         })
         return context
 
@@ -68,20 +68,17 @@ class PersonView(generic_views.TemplateView):
 
 
 def fill_db():
-    # Fill Categories
-    categories = []
-    category_names = ['Politik', 'Tajkun', 'Bankir', ]
-    category_desciptions = ['Bla bla bla bla', 'Bla bla bla bla', 'Bla bla bla bla', ]
-    for i in range(0, len(category_names)-1):
-        category = Category(en_name=category_names[i], sl_name=category_names[i], description=category_desciptions[i])
-        category.save()
-        categories.append(category.pk)
-
+    # Create Categories
+    category_names = ['Politician', 'Banker', ]
+    category_desciptions = ['Bla bla bla bla', 'Bla bla bla bla', ]
+    for i in range(0, len(category_names)):
+        if not Category.objects.filter(en_name=category_names[i]).exists():
+            Category(en_name=category_names[i], sl_name=category_names[i], description=category_desciptions[i]).save()
     # Create Persons
     description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
 
     for j in range(0, 20):
-        city = City.objects.filter(country__name='United Kingdom').get(name='London')
+        city = 'city'  # City.objects.filter(country__name='United Kingdom').get(name='London')
         information = Information(
             first_name=crypto.get_random_string(5),
             last_name=crypto.get_random_string(5),
@@ -92,6 +89,6 @@ def fill_db():
         information.save()
         Person(
             information=information,
-            category=Category.objects.get(id=categories[randint(0, len(categories) - 1)]),
+            category=Category.objects.get(en_name=category_names[randint(0, len(category_names) - 1)]),
             description=description
         ).save()

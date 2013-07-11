@@ -10,7 +10,7 @@ class Information(models.Model):
     last_name = models.CharField(max_length=50)
     birth_date = models.DateField()
 
-    city = models.ForeignKey(cities_models.City)
+    city = models.CharField(max_length=50)  # models.ForeignKey(cities_models.City)
     street = models.CharField(max_length=50)
 
 
@@ -30,6 +30,8 @@ class Category(models.Model):
 class Person(models.Model):
     information = models.ForeignKey(Information)
     active = models.BooleanField(default=True)
+    validated = models.BooleanField(default=False)
+    fictional = models.BooleanField(default=False)
     date_added = models.DateTimeField(default=timezone.now())
 
     category = models.ForeignKey(Category)
