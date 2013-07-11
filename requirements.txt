@@ -4,3 +4,5 @@ pytz
 
 South
 django-cities-light
+
+wadofstuff-django-serializers

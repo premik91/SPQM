@@ -1,6 +1,7 @@
 {% extends 'master.html' %}
 {% load static %}
 {% block body %}
+    {% csrf_token %}
     <div id="main_content" class="container-fluid">
         {# MAIN PAGE HEADING #}
         <div class="page-heading">
@@ -32,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            {% if forloop.counter|divisibleby:4 %}
+            {% if forloop.counter|divisibleby:4 and not forloop.last %}
                 </div>
                 <div class="row-fluid">
             {% endif %}
@@ -40,4 +41,9 @@
         </div>
         <hr>
     </div>
+    <div class="btn btn-large btn-warning" id="load-more">Load More</div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 {% endblock %}

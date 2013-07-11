@@ -1,7 +1,8 @@
 from datetime import datetime
 from random import randint
 from cities_light.models import City
-from django.http import Http404
+from django.core import serializers
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 
 from django.utils import crypto, timezone
@@ -20,13 +21,24 @@ class HomeView(generic_views.FormView):
         return super(HomeView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        username = request.POST['username']
+        # Load and send 4 more persons
+        if request.is_ajax():
+            number_of_persons = int(request.POST['number_of_persons'])
+            json = serializers.serialize(
+                'json',
+                Person.objects.all()[number_of_persons:number_of_persons+4],
+                indent=4,
+                relations=('information',)
+            )
+            return HttpResponse(json)
+
         # TODO: User Login
+        username = request.POST['username']
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context.update({
-            'persons': Person.objects.all()[:20],
+            'persons': Person.objects.all()[:4],
         })
         return context
 
@@ -74,6 +86,7 @@ def fill_db():
     for i in range(0, len(category_names)):
         if not Category.objects.filter(en_name=category_names[i]).exists():
             Category(en_name=category_names[i], sl_name=category_names[i], description=category_desciptions[i]).save()
+
     # Create Persons
     description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
 
