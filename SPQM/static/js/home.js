@@ -19,7 +19,7 @@ $(document).ready(function () {
                         $('<div>', {'class': 'span3'}).append(
                             $('<div>', {'class': 'person'}).append(
                                 $('<div>', {'class': 'person-image'}).append(
-                                    $('<a>', {'href': '#', 'class': 'btn btn-large btn-danger'}),
+                                    $('<a>', {'href': '#', 'class': 'btn btn-large btn-danger'}).append($('.person a.btn:first').text()),
                                     $('<img>', {'alt': 'person', 'src': '/static/img/anonymous.png'})
                                 ),
                                 $('<div>', {'class': 'well widget'}).append(
