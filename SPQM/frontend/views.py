@@ -25,7 +25,7 @@ class HomeView(generic_views.FormView):
                 'json',
                 Person.objects.all()[number_of_persons:number_of_persons+4],
                 indent=4,
-                relations=('information',)
+                relations=('information', )
             )
             return HttpResponse(json)
 
