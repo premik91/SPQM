@@ -8,4 +8,7 @@ urlpatterns = patterns(
     # Person page
     url(r'^(?P<person_name>\w+)-(?P<person_id>\d+)/$', frontend_views.PersonView.as_view(), name='person'),
     url(r'^(?P<person_name>\w+)/$', frontend_views.PersonView.as_view(), name='person_name'),
+
+    # Registration page
+    url(r'register/^$', frontend_views.RegisterView.as_view(), name='register'),
 )
