@@ -1,0 +1,2 @@
+{% load i18n %}
+{{ EMAIL_SUBJECT_PREFIX }}{% trans "Confirm your e-mail address" %}

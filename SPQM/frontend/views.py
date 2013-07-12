@@ -2,13 +2,15 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core import serializers, urlresolvers
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
+from django.utils import crypto
 
 from django.views import generic as generic_views
 from SPQM.frontend import forms
 
-from SPQM.frontend.models import Person, Information
+from SPQM.frontend.models import Person, Information, ExtendedUser
 from SPQM import testing
 
 
@@ -39,6 +41,12 @@ class HomeView(generic_views.FormView):
         user.set_password(password)
         user.save()
 
+        # Send confirmation token
+        confirmation_token = crypto.get_random_string(20) + str(user.id)
+        extended_user = ExtendedUser(user=user, confirmation_token=confirmation_token)
+        extended_user.save()
+        extended_user.send_confirmation_mail()
+
         user = authenticate(username=username, password=password)
         login(self.request, user)
 
@@ -65,9 +73,9 @@ class HomeView(generic_views.FormView):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_active:
                 login(self.request, user)
-                messages.success(self.request, "You have successfully logged in.")
+                messages.success(self.request, 'You have successfully logged in.')
             else:
-                messages.error(self.request, "Check your login information.")
+                messages.error(self.request, 'Check your login information.')
         return super(HomeView, self).form_invalid(form)
 
 
@@ -110,5 +118,20 @@ class PersonView(generic_views.TemplateView):
 class LogoutView(generic_views.RedirectView):
     def get(self, request, *args, **kwargs):
         logout(self.request)
-        messages.success(self.request, "You have successfully logged out.")
+        messages.success(self.request, 'You have successfully logged out.')
         return redirect('/')
+
+
+class EmailConfirmationView(generic_views.RedirectView):
+    def get(self, request, *args, **kwargs):
+        try:
+            token = kwargs.get('confirmation_token')
+            user = ExtendedUser.objects.get(user=User.objects.get(id=token[20:]))
+            if user.check_token(token):
+                user.email_confirmed = True
+                messages.success(request, 'You have successfully confirmed your e-mail address.')
+            else:
+                messages.error(request, 'Invalid confirmation token.')
+            return redirect('/')
+        except (ValueError, ObjectDoesNotExist):
+            raise Http404

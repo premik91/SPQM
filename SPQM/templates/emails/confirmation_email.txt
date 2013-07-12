@@ -1,0 +1,25 @@
+{% load i18n %}
+{% trans "Hello" %} {{ user.username }}!
+
+{% filter wordwrap:68 %}
+{% blocktrans with site_name=SITE_NAME email=user.email %} This message was sent to you to
+confirm this e-mail address ({{ email }}) as yours for your account on {{ site_name }}
+with email "{{ email }}". If you have already done so or don't want to, you can safely ignore this e-mail.{% endblocktrans %}
+
+{% trans "Please click the link below to confirm your e-mail address:" %}
+
+{{ SITE_URL }}{% url 'email_confirmation' confirmation_token %}
+
+{% blocktrans with token_validity=CONFIRMATION_TOKEN_VALIDITY %} Confirmation token will be active for {{ token_validity }} days.
+If it expires you will have to redo the process of confirming your e-mail address.{% endblocktrans %}
+
+{% trans "Please also be careful to open complete link. Your e-mail client might have broken it into several lines." %}
+
+{% trans "If you have any problems confirming your e-mail address or have any other questions just reply to this e-mail." %}
+
+{% endfilter %}
+
+{% trans "Yours" %},
+
+{{ SITE_NAME }}
+{{ SITE_URL }}{% url 'home' %}
