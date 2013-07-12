@@ -66,6 +66,11 @@
     color: #fcb6b4;
     text-shadow: none;
     margin-top: 10px;
+    -moz-hyphens:auto;
+    -ms-hyphens:auto;
+    -webkit-hyphens:auto;
+    hyphens:auto;
+    word-wrap:break-word;
 }
 
 #sidebar.nav-pills > li > a [class^="micon-"],

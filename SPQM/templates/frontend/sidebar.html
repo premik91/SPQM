@@ -4,7 +4,9 @@
     <li class="avatar hidden-phone">
         <a href="#">
             <img src="{% static 'img/anonymous.png' %}">
-            <span>You Are Anonymous</span>
+            <span>
+                {% if user.is_authenticated %}{{ user.username }}{% else %}You Are Anonymous{% endif %}
+            </span>
         </a>
     </li>
     <li class="dropdown">

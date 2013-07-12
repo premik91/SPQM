@@ -31,6 +31,8 @@ class HomeView(generic_views.FormView):
     def form_valid(self, form):
         email = form.cleaned_data['email']
         username = form.cleaned_data['username']
+        if len(username) == 0:
+            username = email
         password = form.cleaned_data['password']
 
         user = User(username=username, email=email)
