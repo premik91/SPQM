@@ -8,10 +8,14 @@ from django.shortcuts import redirect
 from django.utils import crypto
 
 from django.views import generic as generic_views
+import time
 from SPQM.frontend import forms
 
 from SPQM.frontend.models import Person, Information, ExtendedUser
 from SPQM import testing
+
+
+PERSONS_TO_SEND = 4
 
 
 class HomeView(generic_views.FormView):
@@ -25,8 +29,15 @@ class HomeView(generic_views.FormView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
+
+        # Did register form have errors
+        form_invalid = False
+        if 'form_invalid' in self.request.session:
+            form_invalid = True
+            del self.request.session['form_invalid']
         context.update({
             'persons': Person.objects.all()[:4],
+            'form_invalid': form_invalid
         })
         return context
 
@@ -42,8 +53,7 @@ class HomeView(generic_views.FormView):
         user.save()
 
         # Send confirmation token
-        confirmation_token = crypto.get_random_string(20) + str(user.id)
-        extended_user = ExtendedUser(user=user, confirmation_token=confirmation_token)
+        extended_user = ExtendedUser(user=user, confirmation_token=crypto.get_random_string(20))
         extended_user.save()
         extended_user.send_confirmation_mail()
 
@@ -54,28 +64,31 @@ class HomeView(generic_views.FormView):
         return super(HomeView, self).form_valid(form)
 
     def form_invalid(self, form):
-        # Load and send 4 more persons
+        # Load and send PERSONS_TO_SEND more persons
         if self.request.is_ajax():
-            print 'ajax'
             number_of_persons = int(self.request.POST['number_of_persons'])
             json = serializers.serialize(
                 'json',
-                Person.objects.all()[number_of_persons:number_of_persons+4],
+                Person.objects.all()[number_of_persons:number_of_persons + PERSONS_TO_SEND],
                 indent=4,
                 relations=('information', )
             )
+            time.sleep(1)
             return HttpResponse(json)
         # If email is not in POST, than this is login
         elif 'email' not in self.request.POST:
             username = self.request.POST['username']
             password = self.request.POST['password']
-
             user = authenticate(username=username, password=password)
             if user is not None and user.is_active:
                 login(self.request, user)
                 messages.success(self.request, 'You have successfully logged in.')
             else:
                 messages.error(self.request, 'Check your login information.')
+        # Else register form is wrong
+        else:
+            self.request.session['form_invalid'] = True
+
         return super(HomeView, self).form_invalid(form)
 
 
@@ -126,9 +139,10 @@ class EmailConfirmationView(generic_views.RedirectView):
     def get(self, request, *args, **kwargs):
         try:
             token = kwargs.get('confirmation_token')
-            user = ExtendedUser.objects.get(user=User.objects.get(id=token[20:]))
+            user = ExtendedUser.objects.get(confirmation_token=token)
             if user.check_token(token):
                 user.email_confirmed = True
+                user.save()
                 messages.success(request, 'You have successfully confirmed your e-mail address.')
             else:
                 messages.error(request, 'Invalid confirmation token.')

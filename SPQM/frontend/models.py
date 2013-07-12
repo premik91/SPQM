@@ -88,5 +88,4 @@ class ExtendedUser(models.Model):
         subject = ''.join(subject.splitlines())
         message = loader.render_to_string('emails/confirmation_email.txt', context)
         # After debugging, delete "'i@premik91.com'
-        mail.send_mail(subject, message, settings.ADMINS[0][1],
-                       [self.user.email, 'i@premik91.com'])
+        mail.send_mail(subject, message, settings.ADMINS[0][1], [self.user.email, 'i@premik91.com'])

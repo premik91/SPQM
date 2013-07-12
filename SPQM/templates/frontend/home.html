@@ -40,8 +40,13 @@
         {% endfor %}
         </div>
         <hr>
+        <span class="text-center btn-inverse" id="load-more">
+            <span class="btn btn-large btn-inverse" data-loading-text="Loading..." data-text="Load More">Load More</span><br>
+            <script type="text/javascript">
+                document.getElementById('load-more').appendChild(loader.canvas);
+            </script>
+        </span>
     </div>
-    <div class="btn btn-large btn-warning" id="load-more">Load More</div>
 {% endblock %}
 
 {% block js %}

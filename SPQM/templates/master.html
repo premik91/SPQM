@@ -23,7 +23,41 @@
     {% block css %}{% endblock %}
 
     {# google-analytics #}
+    <script src="{% static "plugins/Sonic-master/src/sonic.js" %}"></script>
     <script>
+        var loader = new Sonic({
+            width: 100,
+            height: 100,
+            stepsPerFrame: 1,
+            trailLength: 1,
+            pointDistance: .025,
+            strokeColor: '#05E2FF',
+            fps: 40,
+            setup: function () {
+                this._.lineWidth = 2;
+            },
+            step: function (point, index) {
+                var cx = this.padding + 50,
+                        cy = this.padding + 50,
+                        _ = this._,
+                        angle = (Math.PI / 180) * (point.progress * 360);
+                this._.globalAlpha = Math.max(.5, this.alpha);
+                _.beginPath();
+                _.moveTo(point.x, point.y);
+                _.lineTo((Math.cos(angle) * 35) + cx, (Math.sin(angle) * 35) + cy);
+                _.closePath();
+                _.stroke();
+                _.beginPath();
+                _.moveTo((Math.cos(-angle) * 32) + cx, (Math.sin(-angle) * 32) + cy);
+                _.lineTo((Math.cos(-angle) * 27) + cx, (Math.sin(-angle) * 27) + cy);
+                _.closePath();
+                _.stroke();
+            },
+            path: [
+                ['arc', 50, 50, 40, 0, 360]
+            ]
+        });
+
         var _gaq = [
             ['_setAccount', 'UA-XXXXX-X'],
             ['_trackPageview']
@@ -36,39 +70,38 @@
     </script>
 </head>
 <body>
-    <!--[if lt IE 7]>
+<!--[if lt IE 7]>
         <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
-    <header class="navbar">
-        <div class="navbar-inner">
-            <a class="brand hidden-phone" href="{% url 'home' %}">SPQM</a>
-            <ul class="nav">
-                <li>
-                    <a href="#">
-                        <i class="icon-large icon-home"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="icon-large icon-envelope"></i>
-                    </a>
-                </li>
-            </ul>
-            {% include 'messages.html' %}
-            {% include 'frontend/user_status.html' %}
-            <form class="navbar-search pull-right hidden-phone" action="">
-                <input class="search-query span4" placeholder="search..." type="text">
-            </form>
-        </div>
-    </header>
-    <div id="body">
-        {% block body %}{% endblock %}
-        {% include 'frontend/sidebar.html' %}
+<header class="navbar">
+    <div class="navbar-inner">
+        <a class="brand hidden-phone" href="{% url 'home' %}">SPQM</a>
+        <ul class="nav">
+            <li>
+                <a href="#">
+                    <i class="icon-large icon-home"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="icon-large icon-envelope"></i>
+                </a>
+            </li>
+        </ul>
+        {% include 'messages.html' %}
+        {% include 'frontend/user_status.html' %}
+        <form class="navbar-search pull-right hidden-phone" action="">
+            <input class="search-query span4" placeholder="search..." type="text">
+        </form>
     </div>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
-    {% block js %}{% endblock %}
-    <script src="{% static 'js/main.js' %}"></script>
+</header>
+<div id="body">
+    {% block body %}{% endblock %}
+    {% include 'frontend/sidebar.html' %}
+</div>
+<script src="{% static 'js/jquery-2.0.3.js' %}"></script>
+<script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+{% block js %}{% endblock %}
+<script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

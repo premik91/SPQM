@@ -1,3 +1,4 @@
 boostrap: http://twitter.github.io/bootstrap/index.html
 font-awesome: http://fortawesome.github.io/Font-Awesome/
 fotorama: https://github.com/artpolikarpov/fotorama
+sonic: https://github.com/padolsey/Sonic

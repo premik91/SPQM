@@ -451,6 +451,13 @@ header.navbar .dropdown-submenu:hover > a {
 }
 /* ----------------- Home page ----------------- */
 /* ----------------- Person */
+#load-more {
+    display: block;
+    width: 140px;
+    margin: 0 auto;
+    border-radius: 70%;
+}
+
 .person {
     background: #ff8c00;
 }
