@@ -10,12 +10,12 @@ $(document).ready(function () {
             },
             success: function (data) {
                 // Where to add new persons
-                $('.row-fluid:last-of-type').after($('<div>', {'class': 'row-fluid'}));
+                $('#main_content .row-fluid:last-of-type').after($('<div>', {'class': 'row-fluid'}));
 
                 // Go through all new persons and add them to the list.
                 data = jQuery.parseJSON(data);
                 $(data).each(function (index, person) {
-                    $('.row-fluid:last-of-type').append(
+                    $('#main_content .row-fluid:last-of-type').append(
                         $('<div>', {'class': 'span3'}).append(
                             $('<div>', {'class': 'person'}).append(
                                 $('<div>', {'class': 'person-image'}).append(
@@ -35,7 +35,7 @@ $(document).ready(function () {
                     );
                     if (index + 1 % 4 == 0) {
                         // Four persons per row
-                        $('.row-fluid:last-of-type').after($('<div>', {'class': 'row-fluid'}));
+                        $('#main_content .row-fluid:last-of-type').after($('<div>', {'class': 'row-fluid'}));
                     }
                 });
                 return false
@@ -49,4 +49,7 @@ $(document).ready(function () {
     $('#load-more').click(function () {
         loadPersons();
     });
+
+    // Hide message after 10 seconds
+    $('ul.messages').delay(5000).fadeOut('slow');
 });

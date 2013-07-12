@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="span4 align-right">
-                        <a class="btn btn-small btn-danger btn-flat" href="#">Logout</a>
+                        <a class="btn btn-small btn-danger btn-flat" href="{% url 'logout' %}">Logout</a>
                     </div>
 
                 </div>
@@ -54,8 +54,8 @@
             <li>
                 <form method="post" id="login" action="/">
                     {% csrf_token %}
-                    <input type="text" placeholder="username">
-                    <input type="password" placeholder="password">
+                    <input type="text" placeholder="username" name="username">
+                    <input type="password" placeholder="password" name="password">
                     <a href="#registerModal" class="btn btn-link" data-toggle="modal">Create a new account</a>
                     <a class="btn btn-link mute-link">Forgot password?</a>
                     <button type="submit" class="btn btn-large btn-info">Login</button>
@@ -71,6 +71,7 @@
         <h3 id="myModalLabel">Register a new account</h3>
     </div>
     <form method="post" id="register">
+        {% csrf_token %}
         <div class="modal-body">
             <p>Registering removes captcha verifications for adding new persons, voting and all other activity.</p>
             <p>Also if you add yourself as a person, the ability for adding additional fields such as hobbies.</p>

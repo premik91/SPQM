@@ -6,7 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 
 class RegisterUserForm(forms.Form):
     email = forms.EmailField(
-        widget=forms.TextInput(attrs={'placeholder': _('Email')})
+        widget=forms.TextInput(attrs={'placeholder': _('Email')}),
+        max_length=256
     )
 
     username = forms.CharField(

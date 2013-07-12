@@ -1,4 +1,7 @@
-from django.core import serializers
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.core import serializers, urlresolvers
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 
@@ -12,25 +15,11 @@ from SPQM import testing
 class HomeView(generic_views.FormView):
     template_name = 'frontend/home.html'
     form_class = forms.RegisterUserForm
+    success_url = urlresolvers.reverse_lazy('home')
 
     def get(self, request, *args, **kwargs):
         # testing.fill_db()
         return super(HomeView, self).get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        # Load and send 4 more persons
-        if request.is_ajax():
-            number_of_persons = int(request.POST['number_of_persons'])
-            json = serializers.serialize(
-                'json',
-                Person.objects.all()[number_of_persons:number_of_persons+4],
-                indent=4,
-                relations=('information', )
-            )
-            return HttpResponse(json)
-
-        # TODO: User Login
-        username = request.POST['username']
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
@@ -38,6 +27,46 @@ class HomeView(generic_views.FormView):
             'persons': Person.objects.all()[:4],
         })
         return context
+
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+
+        user = User(username=username, email=email)
+        user.set_password(password)
+        user.save()
+
+        user = authenticate(username=username, password=password)
+        login(self.request, user)
+
+        messages.success(self.request, 'You have successfully been registered. You will receive mail to confirm your email.')
+        return super(HomeView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        # Load and send 4 more persons
+        if self.request.is_ajax():
+            print 'ajax'
+            number_of_persons = int(self.request.POST['number_of_persons'])
+            json = serializers.serialize(
+                'json',
+                Person.objects.all()[number_of_persons:number_of_persons+4],
+                indent=4,
+                relations=('information', )
+            )
+            return HttpResponse(json)
+        # If email is not in POST, than this is login
+        elif 'email' not in self.request.POST:
+            username = self.request.POST['username']
+            password = self.request.POST['password']
+
+            user = authenticate(username=username, password=password)
+            if user is not None and user.is_active:
+                login(self.request, user)
+                messages.success(self.request, "You have successfully logged in.")
+            else:
+                messages.error(self.request, "Check your login information.")
+        return super(HomeView, self).form_invalid(form)
 
 
 class PersonView(generic_views.TemplateView):
@@ -74,3 +103,10 @@ class PersonView(generic_views.TemplateView):
             'person': self.request.session['person'],
         })
         return context
+
+
+class LogoutView(generic_views.RedirectView):
+    def get(self, request, *args, **kwargs):
+        logout(self.request)
+        messages.success(self.request, "You have successfully logged out.")
+        return redirect('/')
