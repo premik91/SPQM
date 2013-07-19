@@ -1,0 +1,37 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block body %}
+    <div id="main_content" class="container-fluid">
+        {# MAIN PAGE HEADING #}
+        <div class="page-heading">
+            <h2 class="page-title muted">
+                <i class="icon-envelope icon-large"></i> Contact
+            </h2>
+            {% include 'frontend/statistics.html' %}
+        </div>
+
+        {# CURRENT SITE #}
+        <ul class="breadcrumb breadcrumb-main">
+            <li><a href="{% url 'contact' %}">Contact</a> <span class="divider"></span></li>
+        </ul>
+        <form method="post" class="span9">
+            <div class="row">
+                {% csrf_token %}
+                <div class="span3">
+                    {% for field in form %}
+                        {% if field.name == 'message' %}
+                            </div>
+                            <div class="span6">
+                        {% endif %}
+                        {{ field.label }}
+                        <span class="text-error">{{ field.errors }}</span>
+                        {{ field }}
+                    {% endfor %}
+                    </div>
+                <button type="submit" class="btn btn-primary pull-right btn-large">Send</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block js %}
+{% endblock %}

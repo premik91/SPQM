@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.core import serializers, urlresolvers
+from django.core import serializers, urlresolvers, mail
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
@@ -12,7 +12,7 @@ import time
 from SPQM.frontend import forms
 
 from SPQM.frontend.models import Person, Information, ExtendedUser
-from SPQM import testing
+from SPQM import testing, settings
 
 
 PERSONS_TO_SEND = 4
@@ -149,3 +149,21 @@ class EmailConfirmationView(generic_views.RedirectView):
             return redirect('/')
         except (ValueError, ObjectDoesNotExist):
             raise Http404
+
+
+class ContactView(generic_views.FormView):
+    template_name = 'frontend/contact.html'
+    form_class = forms.ContactForm
+    success_url = urlresolvers.reverse_lazy('contact')
+
+    def form_valid(self, form):
+        first_name = form.cleaned_data['first_name']
+        last_name = form.cleaned_data['last_name']
+        email = form.cleaned_data['email']
+        subject = form.cleaned_data['subject'] + ': ' + first_name + ' ' + last_name
+        message = form.cleaned_data['message']
+
+         # After debugging, delete "'i@premik91.com'"
+        mail.send_mail(subject, message, settings.ADMINS[0][1], [email, 'i@premik91.com'])
+        messages.success(self.request, 'You have successfully sent an email.')
+        return super(ContactView, self).form_valid(form)

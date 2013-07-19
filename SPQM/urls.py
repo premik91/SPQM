@@ -4,6 +4,7 @@ from frontend import views as frontend_views
 urlpatterns = patterns(
     '',
     url(r'^$', frontend_views.HomeView.as_view(), name='home'),
+    url(r'^contact/$', frontend_views.ContactView.as_view(), name='contact'),
 
     # User account
     url(r'^logout/$', frontend_views.LogoutView.as_view(), name='logout'),
