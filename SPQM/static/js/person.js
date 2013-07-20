@@ -5,6 +5,9 @@ $(document).ready(function () {
         min: 0,
         max: 100,
         value: 60,
-        animate: true
+        animate: true,
+        slide: function (event, ui) {
+            console.log(ui.value);
+        }
     });
 });

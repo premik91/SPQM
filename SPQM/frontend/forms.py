@@ -90,3 +90,19 @@ class ContactForm(forms.Form):
         if not email_valid(email):
             raise forms.ValidationError(_('Email is not valid.'), code='email_not_valid')
         return email
+
+
+class AddPersonForm(forms.Form):
+    first_name = forms.CharField(
+        label='First Name',
+        widget=forms.TextInput(attrs={'placeholder': 'Your First Name', 'class': 'span3'}),
+        max_length=32
+    )
+
+    last_name = forms.CharField(
+        label='Last Name',
+        widget=forms.TextInput(attrs={'placeholder': 'Your Last Name', 'class': 'span3'}),
+        max_length=32
+    )
+
+    fictional = forms.BooleanField()

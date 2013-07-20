@@ -135,6 +135,16 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);
 }
 
+.slider-violet {
+    background-color: blueviolet;
+    *background-color: darkviolet;
+    background-image: -moz-linear-gradient(top, blueviolet, darkviolet);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(blueviolet), to(darkviolet));
+    background-image: -webkit-linear-gradient(top, blueviolet, darkviolet);
+    background-image: -o-linear-gradient(top, blueviolet, darkviolet);
+    background-image: linear-gradient(to bottom, blueviolet, darkviolet);
+}
+
 .ui-slider > div {
     background-color: rgb(231, 231, 231);
     background-image: -moz-linear-gradient(center top, rgb(229, 229, 229), rgb(233, 233, 233));

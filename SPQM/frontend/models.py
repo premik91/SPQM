@@ -89,3 +89,13 @@ class ExtendedUser(models.Model):
         message = loader.render_to_string('emails/confirmation_email.txt', context)
         # After debugging, delete "'i@premik91.com'"
         mail.send_mail(subject, message, settings.ADMINS[0][1], [self.user.email, 'i@premik91.com'])
+
+
+class Image(models.Model):
+    person = models.ForeignKey(Person, default=None)
+
+    title = models.CharField(max_length=60, blank=True, null=True)
+    image = models.FileField(upload_to="images/")
+
+    def __unicode__(self):
+        return self.image.name

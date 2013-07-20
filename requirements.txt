@@ -1,7 +1,13 @@
 django==1.5.1
+# Python timezone
 pytz
 
+# For cities and countries
 South
 django-cities-light
 
+# Better json serializer
 wadofstuff-django-serializers
+
+# For image upload
+pillow

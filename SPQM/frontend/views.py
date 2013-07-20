@@ -167,3 +167,16 @@ class ContactView(generic_views.FormView):
         mail.send_mail(subject, message, settings.ADMINS[0][1], [email, 'i@premik91.com'])
         messages.success(self.request, 'You have successfully sent an email.')
         return super(ContactView, self).form_valid(form)
+
+
+class AddPersonView(generic_views.FormView):
+    template_name = 'frontend/add_person.html'
+    form_class = forms.AddPersonForm
+    success_url = urlresolvers.reverse_lazy('add_person')
+
+    def form_valid(self, form):
+        first_name = form.cleaned_data['first_name']
+        last_name = form.cleaned_data['last_name']
+
+        # messages.success(self.request, 'You have successfully added a person.')
+        return super(AddPersonView, self).form_valid(form)
