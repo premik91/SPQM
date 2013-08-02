@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core import serializers, urlresolvers, mail
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.utils import crypto
 
@@ -11,17 +11,15 @@ from django.views import generic as generic_views
 import time
 from SPQM.frontend import forms
 
-from SPQM.frontend.models import Person, Information, ExtendedUser
-from SPQM import testing, settings
+from SPQM.frontend.models import Person, City, ExtendedUser
+from SPQM import testing, settings, context_processors
+
+# INT % 4 == 0
+PERSONS_TO_SEND = 1 * 4
 
 
-PERSONS_TO_SEND = 4
-
-
-class HomeView(generic_views.FormView):
+class HomeView(generic_views.TemplateView):
     template_name = 'frontend/home.html'
-    form_class = forms.RegisterUserForm
-    success_url = urlresolvers.reverse_lazy('home')
 
     def get(self, request, *args, **kwargs):
         # testing.fill_db()
@@ -29,17 +27,47 @@ class HomeView(generic_views.FormView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-
-        # Did register form have errors
-        form_invalid = False
-        if 'form_invalid' in self.request.session:
-            form_invalid = True
-            del self.request.session['form_invalid']
         context.update({
-            'persons': Person.objects.all()[:4],
-            'form_invalid': form_invalid
+            'persons': Person.objects.all()[:PERSONS_TO_SEND],
         })
         return context
+
+    def post(self, request, *args, **kwargs):
+        # Load and send PERSONS_TO_SEND more persons
+        if self.request.is_ajax():
+            number_of_persons = int(self.request.POST['number_of_persons'])
+            json = serializers.serialize(
+                'json',
+                Person.objects.all()[number_of_persons:number_of_persons + PERSONS_TO_SEND],
+                indent=4,
+                relations=('city', )
+            )
+            time.sleep(1)
+            return HttpResponse(json)
+
+
+class LoginView(generic_views.FormView):
+    form_class = forms.LoginUserForm
+
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+
+        user = authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            login(self.request, user)
+            messages.success(self.request, 'You have successfully logged in.')
+        else:
+            messages.error(self.request, 'Check your login information.')
+        return HttpResponseRedirect('/')
+
+    def form_invalid(self, form):
+        context_processors.login_form = form
+        return HttpResponseRedirect('/')
+
+
+class RegisterView(generic_views.FormView):
+    form_class = forms.RegisterUserForm
 
     def form_valid(self, form):
         email = form.cleaned_data['email']
@@ -61,35 +89,11 @@ class HomeView(generic_views.FormView):
         login(self.request, user)
 
         messages.success(self.request, 'You have successfully been registered. You will receive mail to confirm your email.')
-        return super(HomeView, self).form_valid(form)
+        return HttpResponseRedirect('/')
 
     def form_invalid(self, form):
-        # Load and send PERSONS_TO_SEND more persons
-        if self.request.is_ajax():
-            number_of_persons = int(self.request.POST['number_of_persons'])
-            json = serializers.serialize(
-                'json',
-                Person.objects.all()[number_of_persons:number_of_persons + PERSONS_TO_SEND],
-                indent=4,
-                relations=('information', )
-            )
-            time.sleep(1)
-            return HttpResponse(json)
-        # If email is not in POST, than this is login
-        elif 'email' not in self.request.POST:
-            username = self.request.POST['username']
-            password = self.request.POST['password']
-            user = authenticate(username=username, password=password)
-            if user is not None and user.is_active:
-                login(self.request, user)
-                messages.success(self.request, 'You have successfully logged in.')
-            else:
-                messages.error(self.request, 'Check your login information.')
-        # Else register form is wrong
-        else:
-            self.request.session['form_invalid'] = True
-
-        return super(HomeView, self).form_invalid(form)
+        context_processors.register_form = form
+        return HttpResponseRedirect('/')
 
 
 class PersonView(generic_views.TemplateView):
@@ -105,15 +109,15 @@ class PersonView(generic_views.TemplateView):
             person_id = int(kwargs['person_id'])
 
         # First check if name is unique (name has an advantage to id)
-        information = Information.objects.filter(first_name=person_name[0], last_name=person_name[1])
-        if len(information) == 1:
-            person = Person.objects.get(information=information)
+        person = Person.objects.filter(first_name=person_name[0], last_name=person_name[1])
+        if len(person) == 1 or (person_id == -1 and len(person) > 0):
+            person = person[0]
             if person.id != person_id and person_id != -1:
                 return redirect(person.create_url())
         # Else check id
         elif Person.objects.filter(id=person_id).exists():
             person = Person.objects.get(id=person_id)
-            if person.information.first_name != person_name[0] or person.information.last_name != person_name[1]:
+            if person.first_name != person_name[0] or person.last_name != person_name[1]:
                 return redirect(person.create_url())
         else:
             raise Http404
@@ -177,6 +181,8 @@ class AddPersonView(generic_views.FormView):
     def form_valid(self, form):
         first_name = form.cleaned_data['first_name']
         last_name = form.cleaned_data['last_name']
+        fictional = form.cleaned_data['fictional']
+        description = form.cleaned_data['description']
 
         # messages.success(self.request, 'You have successfully added a person.')
         return super(AddPersonView, self).form_valid(form)

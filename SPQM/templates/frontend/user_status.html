@@ -1,12 +1,13 @@
 {% load static %}
 
 <script>
-    var showRegisterForm = {% if form_invalid %}true{% else %}false{% endif %};
+    var showRegisterForm = {% if register_form.errors %}true{% else %}false{% endif %};
+    var showLoginForm = {% if login_form.errors %}true{% else %}false{% endif %};
 </script>
 
 <ul class="nav pull-right">
     <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="user_forms">
         <i class="icon-large icon-user"></i>
     </a>
     {% if user.is_authenticated %}
@@ -57,10 +58,12 @@
                 </div>
             </li>
             <li>
-                <form method="post" id="login" action="/">
+                <form method="post" id="login" action="{% url 'login' %}">
                     {% csrf_token %}
-                    <input type="text" placeholder="username" name="username">
-                    <input type="password" placeholder="password" name="password">
+                    {% for field in login_form %}
+                        {{ field.errors }}
+                        {{ field }}
+                    {% endfor %}
                     <a id="register-button" href="#registerModal" class="btn btn-link" data-toggle="modal">Create a new account</a>
                     <a class="btn btn-link mute-link">Forgot password?</a>
                     <button type="submit" class="btn btn-large btn-info">Login</button>
@@ -75,12 +78,12 @@
         <button type="button" class="close" data-dismiss="modal"><i class="icon-remove-circle"></i></button>
         <h3>Register a new account</h3>
     </div>
-    <form method="post" id="register">
+    <form method="post" id="register" action="{% url 'register' %}">
         {% csrf_token %}
         <div class="modal-body">
             <p>Registering removes captcha verifications for adding new persons, voting and all other activity.</p>
             <p>Also if you add yourself as a person, the ability for adding additional fields such as hobbies.</p>
-            {% for field in form %}
+            {% for field in register_form %}
                 <div class="fieldWrapper">
                     {{ field.errors }}
                     {{ field }}

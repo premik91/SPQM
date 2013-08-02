@@ -1,12 +1,5 @@
 var $ = jQuery.noConflict();
 $(document).ready(function () {
-    // If register form had errors, show Modal and disable fade animation
-    if (showRegisterForm) $('#registerModal').removeClass('fade').modal('show');
-    // Enable fade animation on modal close
-    $('#registerModal').on('hidden', function () {
-        $('#registerModal').addClass('fade');
-    });
-
     // Load more persons
     var button = $('#load-more .btn');
     var loading = false;
@@ -67,7 +60,7 @@ function createPersonHtml(person) {
             $('<div>', {'class': 'well widget'}).append(
                 $('<div>', {'class': 'widget-header'}).append(
                     $('<h3>', {'class': 'title'}).append(
-                        person.fields.information.fields.first_name + ' ' + person.fields.information.fields.last_name
+                        person.fields.first_name + ' ' + person.fields.last_name
                     )
                 ),
                 $('<p>').append('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.')

@@ -14,23 +14,54 @@
         <ul class="breadcrumb breadcrumb-main">
             <li><a href="{% url 'add_person' %}">Add Person</a> <span class="divider"></span></li>
         </ul>
-        <form method="post" class="form-horizontal">
+        <form method="post" class="form-horizontal" id="add-person">
             {% csrf_token %}
             <div class="row-fluid">
-            {% for field in form %}
-                <div class="control-group">
-                    <label class="control-label" for="id_{{ field.name }}">
-                        {{ field.label }}
-                    </label>
-                    <span class="text-error">{{ field.errors }}</span>
-                    <div class="controls">{{ field }}</div>
-                </div>
-            {% endfor %}
-                <hr>
+                {% for field in form %}
+                    {% if field.label %}
+                        <div class="control-group">
+                            <label class="control-label" for="id_{{ field.name }}">
+                                {{ field.label }}
+                                <span class="text-error">{{ field.errors }}</span>
+                            </label>
+
+                            <div class="controls">
+                                {{ field }}
+                                {% if field.label == 'Video' %}
+                                    <div class="btn icon-plus"></div>
+                                    <ul class="well span6 unstyled" style="margin: 0">
+                                        <li>
+                                            <div class="btn icon-remove"></div>
+                                            adas dasd asd a sadas dasd as as asdasddsds sd sssdssds sd ssd sdasdasd a
+                                            asd dasdas dasa a
+                                        </li>
+                                    </ul>
+                                {% elif field.label == 'Quote' %}
+                                    <div>
+                                        <input name="where" class="optional-input span3" placeholder="Where was it said?" type="text">
+                                        <input name="when" class="optional-input" placeholder="When was it said?" type="datetime">
+                                        <div class="btn icon-plus"></div>
+                                    </div>
+                                    <ul class="well span6 unstyled" style="margin: 0">
+                                        <li>
+                                            <div class="btn icon-remove"></div>
+                                            adas dasd asd a sadas dasd as as asdasddsds sd sssdssds sd ssd sdasdasd a
+                                            asd dasdas dasa a
+                                        </li>
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <hr>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                {% endfor %}
                 <button type="submit" class="btn btn-primary btn-large span3">Add</button>
             </div>
         </form>
     </div>
 {% endblock %}
 {% block js %}
+    <script type="text/javascript" src="{% static 'js/add_person.js' %}"></script>
 {% endblock %}

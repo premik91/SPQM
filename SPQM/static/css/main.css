@@ -281,7 +281,7 @@ header.navbar .dropdown-submenu:hover > a {
     margin: 0;
 }
 
-#id_username {
+.optional-input {
     opacity: 0.6;
 }
 
@@ -506,4 +506,9 @@ header.navbar .dropdown-submenu:hover > a {
 /* ----------------- Footage */
 #photos, #videos {
     background-color: #000000;
+}
+
+/* ----------------- Add person page ----------------- */
+#id_quote {
+    height: 60px;
 }

@@ -9,50 +9,6 @@ from cities_light import models as cities_models
 from SPQM import settings
 
 
-class Information(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    birth_date = models.DateField()
-
-    city = models.CharField(max_length=50)  # models.ForeignKey(cities_models.City)
-    street = models.CharField(max_length=50)
-
-
-class Category(models.Model):
-    en_name = models.CharField(max_length=50)
-    sl_name = models.CharField(max_length=50)
-
-    description = models.CharField(max_length=10000)
-
-    def __unicode__(self):
-        if to_locale(get_language()) == 'sl':
-            return unicode(self.sl_name)
-        else:
-            return unicode(self.en_name)
-
-
-class Person(models.Model):
-    information = models.ForeignKey(Information)
-    active = models.BooleanField(default=True)
-    validated = models.BooleanField(default=False)
-    fictional = models.BooleanField(default=False)
-    date_added = models.DateTimeField(default=timezone.now())
-
-    category = models.ForeignKey(Category)
-    description = models.CharField(max_length=10000)
-
-    def __unicode__(self):
-        return unicode(self.information.first_name + ' ' + self.information.last_name)
-
-    def create_url(self):
-        proper_url = re.sub(r"[^a-zA-Z0-9 ]", '', self.information.first_name + ' ' + self.information.last_name)
-        proper_url = proper_url.replace(' ', '_')
-        # Is the name unique?
-        if not len(Information.objects.filter(first_name=self.information.first_name, last_name=self.information.last_name)) == 1:
-            proper_url = proper_url + '-' + self.id.__str__()
-        return '/' + proper_url + '/'
-
-
 CONFIRMATION_TOKEN_VALIDITY = 5  # Days
 
 
@@ -91,8 +47,55 @@ class ExtendedUser(models.Model):
         mail.send_mail(subject, message, settings.ADMINS[0][1], [self.user.email, 'i@premik91.com'])
 
 
+class City(models.Model):
+    city = models.CharField(max_length=50)  # models.ForeignKey(cities_models.City)
+    street = models.CharField(max_length=50)
+
+
+class Category(models.Model):
+    en_name = models.CharField(max_length=50)
+    sl_name = models.CharField(max_length=50)
+
+    description = models.CharField(max_length=10000)
+
+    def __unicode__(self):
+        if to_locale(get_language()) == 'sl':
+            return unicode(self.sl_name)
+        else:
+            return unicode(self.en_name)
+
+
+class Person(models.Model):
+    # extended_user = models.ForeignKey(ExtendedUser, default=None)
+    city = models.ForeignKey(City)
+
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    birth_date = models.DateField()
+
+    active = models.BooleanField(default=True)
+    validated = models.BooleanField(default=False)
+    fictional = models.BooleanField(default=False)
+    date_added = models.DateTimeField(default=timezone.now())
+
+    category = models.ForeignKey(Category)
+    description = models.CharField(max_length=10000)
+
+    def __unicode__(self):
+        return unicode(self.first_name + ' ' + self.last_name)
+
+    def create_url(self):
+        proper_url = re.sub(r"[^a-zA-Z0-9 ]", '', self.first_name + ' ' + self.last_name)
+        proper_url = proper_url.replace(' ', '_')
+        # Is the name unique?
+        if not len(Person.objects.filter(first_name=self.first_name, last_name=self.last_name)) == 1:
+            proper_url = proper_url + '-' + self.id.__str__()
+        return '/' + proper_url + '/'
+
+
 class Image(models.Model):
     person = models.ForeignKey(Person, default=None)
+    extended_user = models.ForeignKey(ExtendedUser, default=None)
 
     title = models.CharField(max_length=60, blank=True, null=True)
     image = models.FileField(upload_to="images/")
